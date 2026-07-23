@@ -1,0 +1,52 @@
+name: Build and release plugin
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the tagged source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Enable pnpm
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check publishing files
+        run: bash tests/test-publishing-files.sh
+
+      - name: Test save restore safety
+        run: bash tests/test-restored-save-clean.sh
+
+      - name: Type-check the frontend
+        run: pnpm exec tsc --noEmit
+
+      - name: Build the installable ZIP
+        run: bash scripts/package.sh
+
+      - name: Verify release archive
+        run: bash tests/test-release-contents.sh
+
+      - name: Create the GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          release/demons-souls-checkpoints.zip
+          --title "$GITHUB_REF_NAME"
+          --generate-notes
