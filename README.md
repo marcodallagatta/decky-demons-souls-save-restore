@@ -51,6 +51,22 @@ change before use.
 The plugin needs no root access. If Decky is not installed yet, start with its
 [official installation guide](https://decky.xyz/).
 
+## In Gaming Mode
+
+After installation, find **DeS Checkpoints** in Decky's plugin list. Its two
+actions are deliberately kept on one small screen: create a checkpoint before
+the fight, or restore the latest one after a loss.
+
+![Decky's plugin list with DeS Checkpoints selected on the left and its checkpoint-ready notification on the right](docs/screenshots/decky-plugin-list-and-checkpoint-ready.png)
+
+![DeS Checkpoints screen with buttons to create or restore a boss checkpoint](docs/screenshots/checkpoint-actions.png)
+
+Creating a checkpoint requires confirmation after you have quit to the game's
+title screen. When it succeeds, Decky shows a notification before you return
+to the game.
+
+![Confirmation dialog for creating a boss checkpoint](docs/screenshots/create-checkpoint-confirmation.png)
+
 ## The boss-gate ritual
 
 1. Stand at the fog gate.
